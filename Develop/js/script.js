@@ -28,7 +28,34 @@ function startQuiz() {
 }
 
 function displayQuestion() {
-    
+    let questionContainer = document.getElementById('question-container')
     let question = quizQuestion[currentQuestionIndex].question
-    console.log(question)
+    let questionEl = document.createElement('h2')
+   // This is how to grab from object quizQuestions, and display it onto the page
+    questionContainer.innerHTML = ''
+    questionEl.textContent = question
+    questionContainer.appendChild(questionEl)
+
+    let options = quizQuestion[currentQuestionIndex].options
+   
+
+    for (i=0; i < options.length; i++) {
+        let optionsEl = document.createElement('button')
+        optionsEl.addEventListener('click', selectOption)    // add this back after defining selectOption
+        optionsEl.textContent = options[i]
+        questionEl.appendChild(optionsEl)
+    }
+    currentQuestionIndex ++
+    console.log(currentQuestionIndex)
+}
+
+function selectOption(event) {
+    let selectedOption = event.target.textContent
+    let answer = quizQuestion[currentQuestionIndex].answer
+    if (selectedOption === answer) {
+        displayQuestion()
+    }
+    if (selectedOption !== answer)
+        displayQuestion()
+    console.log('wrong')
 }
