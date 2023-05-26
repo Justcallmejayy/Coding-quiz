@@ -1,5 +1,6 @@
 var startBtn = document.getElementById('start-btn');
 startBtn.addEventListener('click', startQuiz);
+let wrongAnswerContainer = document.getElementById('wrong-answer')
 let currentQuestionIndex = 0
 let timer = 60
 let score = 0
@@ -26,9 +27,15 @@ function startQuiz() {
     startBtn.style.display = 'none';
     displayQuestion();
 }
+let questionContainer = document.getElementById('question-container')
+function endQuiz() {
+    questionContainer.innerHTML = 'Thanks for Playing'
+    wrongAnswerContainer.innerHTML = ""
+
+}
 
 function displayQuestion() {
-    let questionContainer = document.getElementById('question-container')
+    
     let question = quizQuestion[currentQuestionIndex].question
     let questionEl = document.createElement('h2')
    // This is how to grab from object quizQuestions, and display it onto the page
@@ -47,13 +54,15 @@ function displayQuestion() {
     }
     currentQuestionIndex ++
     console.log(currentQuestionIndex)
-}
+    if (currentQuestionIndex === quizQuestion.length) {
+        endQuiz()}
+    
+    }
 
 function selectOption(event) {
-    let selectedOption = event.target.textContent
-    let answer = quizQuestion[currentQuestionIndex].answer
-    let wrongAnswerContainer = document.getElementById('wrong-answer')
-    let wrongAnswerEl = document.createElement('div')
+        let selectedOption = event.target.textContent
+        let wrongAnswerEl = document.createElement('div')
+        let answer = quizQuestion[currentQuestionIndex].answer
     if (selectedOption === answer) {
         displayQuestion()
     }
@@ -64,5 +73,5 @@ function selectOption(event) {
         wrongAnswerContainer.appendChild(wrongAnswerEl)
         displayQuestion()
     }
+    
 }
-       
