@@ -52,10 +52,17 @@ function displayQuestion() {
 function selectOption(event) {
     let selectedOption = event.target.textContent
     let answer = quizQuestion[currentQuestionIndex].answer
+    let wrongAnswerContainer = document.getElementById('wrong-answer')
+    let wrongAnswerEl = document.createElement('div')
     if (selectedOption === answer) {
         displayQuestion()
     }
-    if (selectedOption !== answer)
+    if (selectedOption !== answer) {
+        wrongAnswerContainer.innerHTML = ""
+        wrongAnswerEl = document.createElement('div')
+        wrongAnswerEl.textContent = "Incorrect"
+        wrongAnswerContainer.appendChild(wrongAnswerEl)
         displayQuestion()
-    console.log('wrong')
+    }
 }
+       
