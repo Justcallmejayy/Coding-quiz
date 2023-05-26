@@ -7,12 +7,12 @@ let score = 0
 
 let quizQuestion = [
     {question: 'What is an array?',
-    options: ['option 1', 'option2','option3', 'option4'],
-    answer: 'option 1'
+    options: ['A string', 'option2','option3', 'option4'],
+    answer: 'A string'
     },
     {question: 'What is a boolean?',
-    options: ['option 1', 'option2','option3', 'option4'],
-    answer: 'option 1'
+    options: ['True/False', 'option2','option3', 'option4'],
+    answer: 'True/False'
     },
     {question: 'Do you need parantheses or brackets for an array?',
     options: ['option 1', 'option2','option3', 'option4'],
@@ -26,16 +26,19 @@ let quizQuestion = [
 function startQuiz() {
     startBtn.style.display = 'none';
     displayQuestion();
+    
 }
 let questionContainer = document.getElementById('question-container')
 function endQuiz() {
-    questionContainer.innerHTML = 'Thanks for Playing'
+    questionContainer.innerHTML = 'Thanks for Playing you got ' + score + ' right!'
     wrongAnswerContainer.innerHTML = ""
-
 }
 
 function displayQuestion() {
-    
+    if (currentQuestionIndex === quizQuestion.length) {
+        endQuiz();
+        return
+    }
     let question = quizQuestion[currentQuestionIndex].question
     let questionEl = document.createElement('h2')
    // This is how to grab from object quizQuestions, and display it onto the page
@@ -53,17 +56,17 @@ function displayQuestion() {
         questionEl.appendChild(optionsEl)
     }
     currentQuestionIndex ++
-    console.log(currentQuestionIndex)
-    if (currentQuestionIndex === quizQuestion.length) {
-        endQuiz()}
-    
-    }
+   
+  }
 
 function selectOption(event) {
         let selectedOption = event.target.textContent
         let wrongAnswerEl = document.createElement('div')
-        let answer = quizQuestion[currentQuestionIndex].answer
-    if (selectedOption === answer) {
+        let answer = quizQuestion[currentQuestionIndex - 1].answer
+        console.log(answer)
+        if (selectedOption === answer) {
+        wrongAnswerContainer.innerHTML = ""
+        score++
         displayQuestion()
     }
     if (selectedOption !== answer) {
