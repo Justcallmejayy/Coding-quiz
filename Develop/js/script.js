@@ -1,9 +1,15 @@
 var startBtn = document.getElementById('start-btn');
 startBtn.addEventListener('click', startQuiz);
 let wrongAnswerContainer = document.getElementById('wrong-answer')
+let timeContainer = document.getElementById('timeKeeper')
+let highscoresTextContainer = document.getElementById('highscores_text')
+let highscoresContainer = document.querySelector('.highscores')
+let submitBtn = document.getElementById('submitBtn')
+let interval;
 let currentQuestionIndex = 0
 let timer = 60
 let score = 0
+
 
 let quizQuestion = [
     {question: 'What is an array?',
@@ -23,15 +29,27 @@ let quizQuestion = [
     answer: 'option 1'
     },]
 
-function startQuiz() {
+    function startTimer() {
+        interval = setInterval(function(){
+            timer--;
+            timeContainer.textContent = timer
+        }, 1000) 
+        
+    }
+
+    
+    function startQuiz() {
     startBtn.style.display = 'none';
     displayQuestion();
+    startTimer();
     
 }
 let questionContainer = document.getElementById('question-container')
 function endQuiz() {
     questionContainer.innerHTML = 'Thanks for Playing you got ' + score + ' right!'
     wrongAnswerContainer.innerHTML = ""
+    clearInterval(interval);
+    highscoresContainer.classList.remove('highscores')
 }
 
 function displayQuestion() {
@@ -78,3 +96,14 @@ function selectOption(event) {
     }
     
 }
+
+submitBtn.addEventListener('click', function() {
+  let intials = highscoresTextContainer.value
+  let highscores = JSON.parse(localStorage.getItem('highscores')) || []
+  let UserScores = {
+    initals: intials,
+    score: score
+  }
+  highscores.push(UserScores)
+  localStorage.setItem('highscores',JSON.stringify(highscores))
+})
