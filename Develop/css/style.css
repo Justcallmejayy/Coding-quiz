@@ -1,17 +1,22 @@
 * {
 font-family: 'Lucida Sans', sans-serif;
 }
+
 header {
     display: flex;
     justify-content: center;
     position: relative;
     background-color: teal;
 }
+
 h1 {
     
     justify-content: center;
 }
 
+footer {
+    background-color: teal;
+}
 
 #highscores {
     display:flex;

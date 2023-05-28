@@ -10,7 +10,7 @@ let highscoresList = document.getElementById('highscores-list')
 let interval;
 let currentQuestionIndex = 0
 let timer = 60
-let score = 0
+let score = 0 
 
 
 let quizQuestion = [
@@ -35,16 +35,20 @@ function startTimer() {
     interval = setInterval(function() {
         timer--;
         timeContainer.textContent = timer
+        if (timer === 0) {
+            endQuiz();
+        }
     }, 1000) 
         
 }
 
     
     function startQuiz() {
-    if (highscoresTextContainer.className === 'hide') {
-        return;
-    }
+ /*   if (highscoresTextContainer.className === 'hide') {
+        return; 
+    } */
     startBtn.style.display = 'none';
+    submitBtn.className = 'hide'
     displayQuestion();
     startTimer();
     
@@ -118,8 +122,8 @@ submitBtn.addEventListener('click', function() {
     highscores.push(userScores)
     localStorage.setItem('highscores',JSON.stringify(highscores))
     highscoresTextContainer.value = ''
-    highscoresTextContainer.className += ' hide'
-    submitBtn.className += 'hide'
+    highscoresTextContainer.className = ' hide'
+    submitBtn.className = 'hide'
     questionContainer.innerHTML = ''
   
   //  if (highscores.length > 0) {
@@ -137,7 +141,7 @@ playAgainBtn.addEventListener('click', function() {
     timer = 60
     score = 0
     startQuiz()
-    playAgainBtn.className += 'hide'
+    playAgainBtn.className = 'hide'
     highscoresList.textContent = ''
     highscoresTextContainer.value = '';
     highscoresTextContainer.className = 'hide';
