@@ -5,6 +5,8 @@ let timeContainer = document.getElementById('timeKeeper')
 let highscoresTextContainer = document.getElementById('highscores_text')
 let highscoresContainer = document.querySelector('.highscores')
 let submitBtn = document.getElementById('submitBtn')
+let playAgainBtn = document.getElementById('play-again')
+let highscoresList = document.getElementById('highscores-list')
 let interval;
 let currentQuestionIndex = 0
 let timer = 60
@@ -29,28 +31,37 @@ let quizQuestion = [
     answer: 'option 1'
     },]
 
-    function startTimer() {
-        interval = setInterval(function(){
-            timer--;
-            timeContainer.textContent = timer
-        }, 1000) 
+function startTimer() {
+    interval = setInterval(function() {
+        timer--;
+        timeContainer.textContent = timer
+    }, 1000) 
         
-    }
+}
 
     
     function startQuiz() {
+    if (highscoresTextContainer.className === 'hide') {
+        return;
+    }
     startBtn.style.display = 'none';
     displayQuestion();
     startTimer();
     
+    
 }
-let questionContainer = document.getElementById('question-container')
+    let questionContainer = document.getElementById('question-container')
 function endQuiz() {
-    questionContainer.innerHTML = 'Thanks for Playing you got ' + score + ' right!'
+    questionContainer.innerHTML = 'Thanks for Playing you got ' + score + ' right!' + ' write your intials and add to the highscore list!'
     wrongAnswerContainer.innerHTML = ""
     clearInterval(interval);
     highscoresContainer.classList.remove('highscores')
-}
+    highscoresContainer.className += ' displayHighscores'
+    playAgainBtn.classList.remove('hide')
+    highscoresTextContainer.classList.remove('hide')
+    submitBtn.classList.remove('hide')
+
+  }
 
 function displayQuestion() {
     if (currentQuestionIndex === quizQuestion.length) {
@@ -100,10 +111,35 @@ function selectOption(event) {
 submitBtn.addEventListener('click', function() {
   let intials = highscoresTextContainer.value
   let highscores = JSON.parse(localStorage.getItem('highscores')) || []
-  let UserScores = {
+  let userScores = {
     initals: intials,
     score: score
   }
-  highscores.push(UserScores)
-  localStorage.setItem('highscores',JSON.stringify(highscores))
+    highscores.push(userScores)
+    localStorage.setItem('highscores',JSON.stringify(highscores))
+    highscoresTextContainer.value = ''
+    highscoresTextContainer.className += ' hide'
+    submitBtn.className += 'hide'
+    questionContainer.innerHTML = ''
+  
+  //  if (highscores.length > 0) {
+    highscoresList.innerHTML = '';
+    for (i = 0; i < highscores.length; i++) {
+        let li = document.createElement('li');
+        li.textContent = `${highscores[i].initals}: ${highscores[i].score}`;
+        highscoresList.appendChild(li);
+    }
+})
+
+// Make a button that will restart quiz
+playAgainBtn.addEventListener('click', function() {
+    currentQuestionIndex = 0
+    timer = 60
+    score = 0
+    startQuiz()
+    playAgainBtn.className += 'hide'
+    highscoresList.textContent = ''
+    highscoresTextContainer.value = '';
+    highscoresTextContainer.className = 'hide';
+    
 })
