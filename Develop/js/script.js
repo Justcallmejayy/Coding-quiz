@@ -154,20 +154,3 @@ playAgainBtn.addEventListener('click', function() {
     questionContainer.classList.remove('endGame')
 })
 
-clickHighscores.addEventListener('click', function() {
-    let highscores = JSON.parse(localStorage.getItem('highscores')) || []
-      highscoresContainer.classList.remove('hide')
-      questionContainer.innerHTML = ''
-      questionContainer.classList.remove('endGame')
-      
-    
-    //  if (highscores.length > 0) {
-      highscoresList.innerHTML = '';
-      for (i = 0; i < highscores.length; i++) {
-          let li = document.createElement('li');
-          li.textContent = `${highscores[i].initals}: ${highscores[i].score}`;
-          highscoresList.appendChild(li);
-        }
-      })
-
-
